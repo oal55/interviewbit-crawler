@@ -1,0 +1,6 @@
+# Input file written for test puroses.
+*.html
+
+# pyscript files
+conf.py
+dene.py
