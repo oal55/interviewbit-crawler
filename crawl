@@ -1,0 +1,10 @@
+#!/usr/bin/python3.6
+import utilities as interviewbit
+import requests
+from models import URL
+
+with requests.Session() as c:
+	interviewbit.login(c, URL.LOGIN) # we logged in, hopefully.
+	interviewbit.fetch_topics(c, URL.MAIN) # topic list is generated
+	interviewbit.fetch_problems(c)
+	interviewbit.copy_problems(c)
