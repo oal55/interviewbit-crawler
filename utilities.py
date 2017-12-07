@@ -8,7 +8,7 @@ import os
 from models import Topic, URL
 import conf
 
-### --------------------- LOGIN FUNCTIONS --------------------- ###
+### --------------------------- LOGIN FUNCTIONS -------------------------- ###
 
 # html response: html response in string
 def set_auth_token(html_response):
@@ -39,8 +39,7 @@ def login(session, SIGN_IN_URL):
 	if(re.search('Log Out', page.text)): print('Login successful.')
 	else:	raise SystemExit('[Login] messed up at some point.')
 
-### --------------------- TOPIC LINKS BELOW --------------------- ###
-
+### -------------------------- TOPIC LINKS BELOW ------------------------- ###
 # fetches all the unlocked topic names & links from 
 # https://www.interviewbit.com/courses/programming/
 # populates the static topics list of Topic class. 
@@ -62,8 +61,7 @@ def fetch_topics(session, MAIN_URL):
 			Topic.instances.append(Topic(name, link))
 
 
-### --------------------- PROBLEM LINKS BELOW --------------------- ###
-
+### ------------------------- PROBLEM LINKS BELOW ------------------------ ###
 # fetches all the solved problem links from 
 # https://www.interviewbit.com/courses/programming/topics/<topic name>/
 # adds problem links to corresponding Topic objects. 
@@ -84,11 +82,12 @@ def fetch_problems(session):
 		topic.problems = {l for s, l in zip(stats, links) if s}
 		time.sleep(0.2)
 
-	with open('out_problems', 'w') as out:
-		for topic in Topic.instances:
-			out.write(str(topic)) 
-
-
+### ------------------- COPIES PROBLEMS TO LOCAL BELOW ------------------- ###
+# Creates a directory called 'interviewbit'.
+# Creates subdirectories called <topicname> inside 'interviewbit'.
+# Creates <problemname>.cpp files inside those subdirectories.
+# Writes the solution codes fetched from the website into aforementioned
+# cpp files.
 def copy_problems(session):
 	problem_count = 0
 	# doensn't throw if the directory already exists 
@@ -103,7 +102,7 @@ def copy_problems(session):
 		for problem_link in topic.problems:
 			url = URL.BASE + problem_link
 			cpp_name = Topic.local_problem_name(problem_link)			
-			print('\tproblem:{:<50}'.format(cpp_name), end = '')
+			print('\tproblem: {:<50}'.format(cpp_name), end = '')
 			# get response from the server | turn it into html file as string
 			page = session.get(url); page = page.text
 			# unescapes stuff like &lt &gt | rgx.srch(x).grp(1) = first match
@@ -114,6 +113,7 @@ def copy_problems(session):
 			with open(cpp_name, 'w') as out:
 				out.write(cpp_code)
 			time.sleep(0.2)
+		print()
 		os.chdir('..') # go up #2
 	os.chdir('..') # go up #1
 	print('Everything\'s done.')
