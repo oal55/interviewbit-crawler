@@ -5,7 +5,9 @@
 conf.py
 dene.py
 
- 
 #                             _         _
 # cached libraries.. i think   \_(-.-)_/
 __pycache__/
+
+# output directories
+interviewbit/
