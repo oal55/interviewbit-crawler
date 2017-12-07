@@ -127,7 +127,4 @@ interviewbit
         balanced-binary-tree.cpp
         seats.cpp
         sorted-array-to-balanced-bst.cpp
-
-    tree.txt
-        tree.txt
 ```
