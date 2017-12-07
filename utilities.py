@@ -81,6 +81,7 @@ def fetch_problems(session):
 		stats = [PROBLEM_SOLVED in x for x in rgx_stat.findall(page)]
 		topic.problems = {l for s, l in zip(stats, links) if s}
 		time.sleep(0.2)
+	print()
 
 ### ------------------- COPIES PROBLEMS TO LOCAL BELOW ------------------- ###
 # Creates a directory called 'interviewbit'.
